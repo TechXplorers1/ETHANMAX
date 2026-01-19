@@ -1,0 +1,314 @@
+import { useState } from "react";
+import { Menu, X, Search, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+
+interface HeaderProps {
+  onNavigate: (page: string) => void;
+  currentPage: string;
+  onSearch: (query: string) => void;
+  quickSearchProducts?: Array<{
+    id: string;
+    name: string;
+    category: string;
+    image: string;
+  }>;
+  onProductSelect?: (productId: string) => void;
+}
+
+export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts = [], onProductSelect }: HeaderProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const mainNavItems = [
+    { name: "SHOP", id: "shop" },
+    { name: "ABOUT", id: "about" },
+    { name: "COLLECTIONS", id: "collections" },
+    { name: "VISIT", id: "visit" },
+  ];
+
+  const categoryNavItems = [
+    { name: "FURNITURE", id: "furniture" },
+    { name: "INTERIOR DESIGN SERVICES", id: "interior-design-services" },
+    { name: "PALETTE CONSULTATION", id: "palette-consultation" },
+    { name: "RETAIL MERCHANDISING", id: "retail-merchandising" },
+    { name: "DECOR", id: "decor" },
+    { name: "LIVING", id: "living" },
+    { name: "DINING", id: "dining" },
+    { name: "BEDROOM", id: "bedroom" },
+  ];
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      onSearch(searchQuery);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background">
+      {/* Top Announcement Banner */}
+      <div className="bg-primary text-primary-foreground">
+        <div className="max-w-[1600px] mx-auto px-6 py-3 flex items-center justify-between">
+          <div className="flex-1" />
+          <p className="text-sm tracking-wide text-center" style={{ fontFamily: "var(--font-sans)" }}>
+            Discover our latest collection of thoughtfully designed pieces
+          </p>
+          <div className="flex-1 flex justify-end">
+            <ChevronRight size={16} />
+          </div>
+        </div>
+      </div>
+
+      {/* Main Navigation Bar */}
+      <div className="border-b border-border bg-background/95 backdrop-blur-sm">
+        <div className="max-w-[1600px] mx-auto px-6 py-5">
+          <div className="flex items-center justify-between">
+            {/* Search Icon - Left */}
+            <button 
+              className="p-2 hover:text-accent transition-colors" 
+              aria-label="Search"
+              onClick={() => setSearchOpen(true)}
+            >
+              <Search size={20} />
+            </button>
+
+            {/* Logo - Center */}
+            <button
+              onClick={() => onNavigate("home")}
+              className="absolute left-1/2 transform -translate-x-1/2 font-serif text-2xl tracking-widest hover:text-accent transition-colors"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              ETHANMAX LLC
+            </button>
+
+            {/* Right Side Icons */}
+            <div className="flex items-center gap-6">
+              {/* Mobile Menu Button */}
+              <button
+                className="md:hidden p-2"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Secondary Navigation - Main Links */}
+      <div className="hidden md:block border-b border-border bg-background">
+        <div className="max-w-[1600px] mx-auto px-6">
+          <div className="flex items-center justify-center gap-12 py-4">
+            {mainNavItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
+                className={`text-sm tracking-widest transition-colors ${
+                  currentPage === item.id
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Category Navigation */}
+      <div className="hidden md:block bg-secondary/50 border-b border-border">
+        <div className="max-w-[1600px] mx-auto px-6">
+          <div className="flex items-center justify-center gap-8 py-3 overflow-x-auto">
+            {categoryNavItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
+                className={`text-xs tracking-widest whitespace-nowrap transition-colors ${
+                  currentPage === item.id
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Search Modal */}
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-background/98 backdrop-blur-md z-[60] overflow-y-auto"
+            onClick={() => setSearchOpen(false)}
+          >
+            <div className="min-h-screen flex flex-col items-center pt-20 pb-20 px-6">
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="w-full max-w-3xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <form onSubmit={handleSearch} className="relative">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search for products..."
+                    className="w-full bg-transparent border-b-2 border-foreground pb-4 text-3xl focus:outline-none"
+                    style={{ fontFamily: "var(--font-serif)" }}
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setSearchOpen(false)}
+                    className="absolute right-0 top-0 p-2 hover:text-accent transition-colors"
+                  >
+                    <X size={32} />
+                  </button>
+                </form>
+                <p className="text-sm text-muted-foreground mt-6 tracking-wide">
+                  Press Enter to search or Esc to close
+                </p>
+
+                {/* Quick Search Products */}
+                {quickSearchProducts.length > 0 && (
+                  <div className="mt-16">
+                    <h3
+                      className="text-2xl mb-8 tracking-tight"
+                      style={{ fontFamily: "var(--font-serif)" }}
+                    >
+                      Quick Search
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                      {quickSearchProducts.map((product, index) => (
+                        <motion.div
+                          key={product.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4, delay: index * 0.1 }}
+                          className="group cursor-pointer"
+                          onClick={() => {
+                            if (onProductSelect) {
+                              onProductSelect(product.id);
+                              setSearchOpen(false);
+                            }
+                          }}
+                        >
+                          <div className="relative overflow-hidden bg-secondary aspect-[3/4] mb-3">
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <p
+                              className="text-xs tracking-widest uppercase text-muted-foreground"
+                              style={{ fontFamily: "var(--font-sans)" }}
+                            >
+                              {product.category}
+                            </p>
+                            <h4
+                              className="text-sm tracking-tight"
+                              style={{ fontFamily: "var(--font-serif)" }}
+                            >
+                              {product.name}
+                            </h4>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-background border-b border-border overflow-hidden"
+          >
+            <div className="px-6 py-6 space-y-6">
+              {/* Search Mobile */}
+              <div>
+                <button
+                  onClick={() => {
+                    setSearchOpen(true);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 w-full text-left py-2 text-sm tracking-widest text-muted-foreground hover:text-foreground"
+                >
+                  <Search size={16} />
+                  SEARCH
+                </button>
+              </div>
+
+              {/* Main Nav Mobile */}
+              <div className="space-y-3">
+                <p className="text-xs tracking-widest text-muted-foreground mb-3">MAIN</p>
+                {mainNavItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      onNavigate(item.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`block w-full text-left py-2 text-sm tracking-widest transition-colors ${
+                      currentPage === item.id
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </div>
+
+              {/* Category Nav Mobile */}
+              <div className="space-y-3 border-t border-border pt-6">
+                <p className="text-xs tracking-widest text-muted-foreground mb-3">CATEGORIES</p>
+                {categoryNavItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      onNavigate(item.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`block w-full text-left py-2 text-sm tracking-widest transition-colors ${
+                      currentPage === item.id
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
