@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, Search, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -19,6 +19,16 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const mainNavItems = [
     { name: "SHOP", id: "shop" },
@@ -33,7 +43,7 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
     { name: "PALETTE CONSULTATION", id: "palette-consultation" },
     { name: "RETAIL MERCHANDISING", id: "retail-merchandising" },
     { name: "DECOR", id: "decor" },
-    { name: "LIVING", id: "living" },
+    { name: "CUSTOM DESIGN SPACE", id: "custom-design-space" },
     { name: "DINING", id: "dining" },
     { name: "BEDROOM", id: "bedroom" },
   ];
@@ -48,7 +58,7 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background">
+    <header className={`fixed top-0 left-0 right-0 z-50 bg-background ${isScrolled ? 'shadow-md' : ''}`}>
       {/* Top Announcement Banner */}
       <div className="bg-primary text-primary-foreground">
         <div className="max-w-[1600px] mx-auto px-6 py-3 flex items-center justify-between">
@@ -67,32 +77,36 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
         <div className="max-w-[1600px] mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             {/* Search Icon - Left */}
-            <button 
-              className="p-2 hover:text-accent transition-colors" 
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-2 hover:text-accent transition-colors duration-300"
               aria-label="Search"
               onClick={() => setSearchOpen(true)}
             >
               <Search size={20} />
-            </button>
+            </motion.button>
 
             {/* Logo - Center */}
             <button
               onClick={() => onNavigate("home")}
-              className="absolute left-1/2 transform -translate-x-1/2 font-serif text-2xl tracking-widest hover:text-accent transition-colors"
+              className="absolute left-1/2 transform -translate-x-1/2 font-serif text-xl md:text-2xl tracking-wide hover:text-accent transition-colors duration-300 whitespace-nowrap"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              ETHANMAX LLC
+              EthanMax Interior Studio
             </button>
 
             {/* Right Side Icons */}
             <div className="flex items-center gap-6">
               {/* Mobile Menu Button */}
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
                 className="md:hidden p-2"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
@@ -106,14 +120,25 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`text-sm tracking-widest transition-colors ${
-                  currentPage === item.id
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-                style={{ fontFamily: "var(--font-sans)" }}
+                className="relative group py-2"
               >
-                {item.name}
+                <span
+                  className={`text-sm tracking-widest transition-colors duration-300 ${currentPage === item.id
+                      ? "text-foreground"
+                      : "text-muted-foreground group-hover:text-foreground"
+                    }`}
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  {item.name}
+                </span>
+                {currentPage === item.id && (
+                  <motion.div
+                    layoutId="activeNav"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </button>
             ))}
           </div>
@@ -128,14 +153,17 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`text-xs tracking-widest whitespace-nowrap transition-colors ${
-                  currentPage === item.id
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-                style={{ fontFamily: "var(--font-sans)" }}
+                className="relative group py-1"
               >
-                {item.name}
+                <span
+                  className={`text-xs tracking-widest whitespace-nowrap transition-colors duration-300 ${currentPage === item.id
+                      ? "text-foreground"
+                      : "text-muted-foreground group-hover:text-foreground"
+                    }`}
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  {item.name}
+                </span>
               </button>
             ))}
           </div>
@@ -197,7 +225,7 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
                           key={product.id}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.4, delay: index * 0.1 }}
+                          transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
                           className="group cursor-pointer"
                           onClick={() => {
                             if (onProductSelect) {
@@ -210,7 +238,7 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
                             <img
                               src={product.image}
                               alt={product.name}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                              className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
                             />
                           </div>
                           <div className="space-y-1">
@@ -272,11 +300,10 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
                       onNavigate(item.id);
                       setMobileMenuOpen(false);
                     }}
-                    className={`block w-full text-left py-2 text-sm tracking-widest transition-colors ${
-                      currentPage === item.id
+                    className={`block w-full text-left py-2 text-sm tracking-widest transition-colors ${currentPage === item.id
                         ? "text-foreground"
                         : "text-muted-foreground hover:text-foreground"
-                    }`}
+                      }`}
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {item.name}
@@ -294,11 +321,10 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
                       onNavigate(item.id);
                       setMobileMenuOpen(false);
                     }}
-                    className={`block w-full text-left py-2 text-sm tracking-widest transition-colors ${
-                      currentPage === item.id
+                    className={`block w-full text-left py-2 text-sm tracking-widest transition-colors ${currentPage === item.id
                         ? "text-foreground"
                         : "text-muted-foreground hover:text-foreground"
-                    }`}
+                      }`}
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
                     {item.name}

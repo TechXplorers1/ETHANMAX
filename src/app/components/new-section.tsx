@@ -50,8 +50,8 @@ export function NewSection() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         className="text-center mb-16"
       >
         <h2
@@ -74,15 +74,15 @@ export function NewSection() {
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-7 relative group overflow-hidden aspect-[4/5] lg:aspect-[3/4]"
         >
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 z-10" />
+          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 z-10" />
           <img
             src={newItems[0].image}
             alt="New Arrival Featured"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-[1200ms] ease-out"
           />
           {/* NEW Badge */}
           <div className="absolute top-8 left-8 z-20">
@@ -102,15 +102,15 @@ export function NewSection() {
               key={item.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.9, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="relative group overflow-hidden aspect-square"
             >
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 z-10" />
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 z-10" />
               <img
                 src={item.image}
                 alt={`New Arrival ${index + 2}`}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-[1200ms] ease-out"
               />
             </motion.div>
           ))}
@@ -121,8 +121,8 @@ export function NewSection() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-6 lg:mt-8"
       >
         {newItems.slice(7).map((item, index) => (
@@ -130,11 +130,11 @@ export function NewSection() {
             key={item.id}
             className="relative group overflow-hidden aspect-[16/9]"
           >
-            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 z-10" />
+            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 z-10" />
             <img
               src={item.image}
               alt={`New Arrival ${index + 8}`}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-[1200ms] ease-out"
             />
           </div>
         ))}
@@ -144,16 +144,18 @@ export function NewSection() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="text-center mt-16"
       >
-        <button
-          className="inline-block border border-foreground px-12 py-4 hover:bg-foreground hover:text-background transition-colors tracking-widest text-sm"
+        <motion.button
+          whileHover={{ scale: 1.05, letterSpacing: "0.2em" }}
+          whileTap={{ scale: 0.95 }}
+          className="inline-block border border-foreground px-12 py-4 hover:bg-foreground hover:text-background transition-all duration-500 tracking-widest text-sm"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           SHOP NEW ARRIVALS
-        </button>
+        </motion.button>
       </motion.div>
     </section>
   );

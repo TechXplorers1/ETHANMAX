@@ -156,10 +156,14 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleProductSelectFromSearch = (productId: string) => {
-    const product = products.find(p => p.id === productId);
-    if (product) {
-      setSelectedProduct(product);
+  const handleProductSelectFromSearch = (productOrId: string | Product) => {
+    if (typeof productOrId === "string") {
+      const product = products.find((p) => p.id === productOrId);
+      if (product) {
+        setSelectedProduct(product);
+      }
+    } else {
+      setSelectedProduct(productOrId);
     }
   };
 
@@ -186,7 +190,7 @@ export default function App() {
         <SearchResultsPage
           query={searchResults.length > 0 ? "Search Results" : "No Results Found"}
           products={searchResults}
-          onSelectProduct={setSelectedProduct}
+          onSelectProduct={handleProductSelectFromSearch}
         />
       );
     }
@@ -217,6 +221,8 @@ export default function App() {
         return <AboutPage />;
       case "interior-design-services":
         return <InteriorDesignServicesPage />;
+      case "custom-design-space":
+        return <CustomDesignSpacePage />;
       case "palette-consultation":
         return <PaletteConsultationPage />;
       case "retail-merchandising":
@@ -229,7 +235,13 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen" style={{ fontFamily: "var(--font-sans)" }}>
+    <motion.div
+      className="min-h-screen"
+      style={{ fontFamily: "var(--font-sans)" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
       <Header
         onNavigate={handleNavigate}
         currentPage={currentPage}
@@ -239,7 +251,17 @@ export default function App() {
       />
 
       <main className="pt-[168px] md:pt-[185px]">
-        {renderPage()}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            {renderPage()}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       <WhatsAppButton />
@@ -252,7 +274,7 @@ export default function App() {
           />
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 
@@ -274,8 +296,8 @@ function HomePage({ onSelectProduct, onNavigate }: { onSelectProduct: (product: 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-16"
         >
           <h2
@@ -307,36 +329,44 @@ function HomePage({ onSelectProduct, onNavigate }: { onSelectProduct: (product: 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mt-16"
         >
-          <button
+          <motion.button
             onClick={() => onNavigate("living")}
-            className="inline-block border border-foreground px-12 py-4 hover:bg-foreground hover:text-background transition-colors tracking-widest text-sm"
+            whileHover={{ scale: 1.05, backgroundColor: "var(--foreground)", color: "var(--background)" }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block border border-foreground px-12 py-4 hover:bg-foreground hover:text-background transition-colors duration-300 tracking-widest text-sm"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             VIEW MORE
-          </button>
+          </motion.button>
         </motion.div>
       </section>
 
       {/* Editorial Section */}
       <section className="relative w-full h-[70vh] min-h-[500px] overflow-hidden">
-        <div className="absolute inset-0">
+        <motion.div
+          className="absolute inset-0"
+          initial={{ scale: 1.03 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+        >
           <img
             src="https://images.unsplash.com/photo-1704083043868-a23986597567?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuYXR1cmFsJTIwbGlnaHQlMjBpbnRlcmlvcnxlbnwxfHx8fDE3Njc5MTQ1MDF8MA&ixlib=rb-4.1.0&q=80&w=1080"
             alt="Interior"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/30" />
-        </div>
+        </motion.div>
         <div className="relative z-10 h-full flex items-center justify-center px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="text-center text-white max-w-3xl"
           >
             <h3
@@ -407,7 +437,7 @@ function CollectionPage({
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-16"
         >
           <h1
@@ -456,72 +486,116 @@ function AboutPage() {
     <>
       {/* Hero Section */}
       <section className="relative w-full h-[50vh] min-h-[400px] overflow-hidden">
-        <div className="absolute inset-0">
+        <motion.div
+          className="absolute inset-0"
+          initial={{ scale: 1.05 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        >
           <img
             src="https://images.unsplash.com/photo-1669387448840-610c588f003d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBpbnRlcmlvciUyMGRlc2lnbiUyMGxpdmluZyUyMHJvb218ZW58MXx8fHwxNzY4Mzg1NDI2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
             alt="Luxury Interior"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/20" />
-        </div>
+        </motion.div>
         <div className="relative z-10 h-full flex items-center justify-center px-6">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="text-5xl md:text-6xl lg:text-7xl text-white tracking-tight text-center"
             style={{ fontFamily: "var(--font-serif)" }}
           >
-            About EtahnMax
+            About ETHANMAX
           </motion.h1>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-32">
+      {/* Meet the Studio Section */}
+      <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
         <div className="grid md:grid-cols-2 gap-16 lg:gap-20 items-start">
           {/* Text Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-6 leading-relaxed"
-            style={{ fontFamily: "var(--font-sans)" }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-6"
           >
-            <p className="text-lg">
-              EtahnMax is a Texas-based interior design and décor studio passionate about transforming houses into truly custom, bespoke homes. Design is more than a profession for us—it is a craft, a story, and a deeply personal journey.
+            <h2
+              className="text-3xl md:text-4xl lg:text-5xl mb-8 tracking-tight"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              Meet the Studio
+            </h2>
+            <p className="text-lg leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>
+              Born from a deep passion for creating spaces that truly feel like home, ETHANMAX was founded on the belief that exceptional design should be both beautiful and deeply personal.
             </p>
-
-            <p className="text-lg text-muted-foreground">
-              At EtahnMax, we believe every home should be a sanctuary that reflects the individuality, lifestyle, and story of the people who live in it. Each project is approached with thoughtful creativity, blending timeless design principles with modern sophistication and purposeful detail.
+            <p className="text-lg text-muted-foreground leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>
+              Our studio is more than a design firm—it's where creativity, craftsmanship, and client vision come together. We are inspired by the art of transformation, the power of thoughtful details, and the profound impact that a well-designed space can have on daily life.
             </p>
-
-            <p className="text-lg">
-              From full-scale remodeling and spatial planning to curated décor selection and styling, we guide our clients through every step of the process. Our hands-on approach ensures a seamless experience, where clients feel supported, inspired, and confident from initial concept to final reveal.
+            <p className="text-lg leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>
+              Every project we undertake is driven by a genuine desire to understand who you are, how you live, and what truly matters to you. This is the foundation of everything we create.
             </p>
           </motion.div>
 
           {/* Image */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative aspect-[4/5] overflow-hidden bg-secondary"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="relative aspect-[4/5] overflow-hidden bg-secondary group"
           >
             <img
-              src="https://images.unsplash.com/photo-1762803842055-de1e5fb14477?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZXV0cmFsJTIwaW50ZXJpb3IlMjBsaWZlc3R5bGUlMjBwaG90b2dyYXBoeXxlbnwxfHx8fDE3NjgzODY5NDN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-              alt="Interior Design"
-              className="w-full h-full object-cover"
+              src="https://images.unsplash.com/photo-1577275541781-a14047b6f94e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbnRlcmlvciUyMGRlc2lnbmVyJTIwcG9ydHJhaXQlMjB3b3Jrc3BhY2V8ZW58MXx8fHwxNzY4ODkyMTU5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+              alt="Design Studio"
+              className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
             />
           </motion.div>
         </div>
+      </section>
 
-        {/* Specializations */}
+      {/* Core About Content - EXISTING COPY (UNCHANGED) */}
+      <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-28 bg-secondary/30">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-20 lg:mt-32"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-4xl mx-auto"
+        >
+          <h2
+            className="text-4xl md:text-5xl lg:text-6xl mb-12 tracking-tight text-center"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            About ETHANMAX
+          </h2>
+
+          <div className="space-y-6 leading-relaxed text-lg" style={{ fontFamily: "var(--font-sans)" }}>
+            <p>
+              ETHANMAX is a Texas-based interior design and décor studio passionate about transforming houses into truly custom, bespoke homes. Design is more than a profession for us—it is a craft, a story, and a deeply personal journey.
+            </p>
+
+            <p className="text-muted-foreground">
+              At ETHANMAX, we believe every home should be a sanctuary that reflects the individuality, lifestyle, and story of the people who live in it. Each project is approached with thoughtful creativity, blending timeless design principles with modern sophistication and purposeful detail.
+            </p>
+
+            <p>
+              From full-scale remodeling and spatial planning to curated décor selection and styling, we guide our clients through every step of the process. Our hands-on approach ensures a seamless experience, where clients feel supported, inspired, and confident from initial concept to final reveal.
+            </p>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Specializations - EXISTING COPY (UNCHANGED) */}
+      <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2
             className="text-3xl md:text-4xl lg:text-5xl mb-12 tracking-tight text-center"
@@ -553,32 +627,203 @@ function AboutPage() {
             </div>
           </div>
         </motion.div>
+      </section>
 
-        {/* Closing Statement */}
+      {/* Design Process Section */}
+      <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-28 bg-secondary/20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-20 lg:mt-32 text-center"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-16"
+        >
+          <h2
+            className="text-3xl md:text-4xl lg:text-5xl mb-6 tracking-tight"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            How We Work
+          </h2>
+          <p
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Our thoughtful, client-focused process ensures every detail reflects your vision
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center"
+          >
+            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/10 flex items-center justify-center">
+              <span className="text-2xl" style={{ fontFamily: "var(--font-serif)" }}>1</span>
+            </div>
+            <h3
+              className="text-xl md:text-2xl mb-4 tracking-tight"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              Discovery
+            </h3>
+            <p className="text-muted-foreground leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>
+              We begin by understanding your lifestyle, preferences, and aspirations. Through thoughtful conversation, we discover what makes your home uniquely yours.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center"
+          >
+            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/10 flex items-center justify-center">
+              <span className="text-2xl" style={{ fontFamily: "var(--font-serif)" }}>2</span>
+            </div>
+            <h3
+              className="text-xl md:text-2xl mb-4 tracking-tight"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              Concept Development
+            </h3>
+            <p className="text-muted-foreground leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>
+              We craft a cohesive design direction, presenting mood boards, material selections, and spatial plans that bring your vision to life with clarity and intention.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center"
+          >
+            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/10 flex items-center justify-center">
+              <span className="text-2xl" style={{ fontFamily: "var(--font-serif)" }}>3</span>
+            </div>
+            <h3
+              className="text-xl md:text-2xl mb-4 tracking-tight"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              Execution & Styling
+            </h3>
+            <p className="text-muted-foreground leading-relaxed" style={{ fontFamily: "var(--font-sans)" }}>
+              With careful attention to every detail, we oversee sourcing, installation, and final styling—ensuring a seamless transformation from concept to completion.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Why Choose ETHANMAX Section */}
+      <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-28">
+        <div className="grid md:grid-cols-2 gap-16 lg:gap-20 items-center">
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="relative aspect-[4/3] overflow-hidden bg-secondary order-2 md:order-1 group"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1765862835282-cd3d9190d246?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwaG9tZSUyMGludGVyaW9yJTIwbmV1dHJhbHxlbnwxfHx8fDE3Njg4OTIxNjB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+              alt="Elegant Interior"
+              className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.03]"
+            />
+          </motion.div>
+
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-6 order-1 md:order-2"
+          >
+            <h2
+              className="text-3xl md:text-4xl lg:text-5xl mb-8 tracking-tight"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              Why Choose ETHANMAX
+            </h2>
+
+            <div className="space-y-5" style={{ fontFamily: "var(--font-sans)" }}>
+              <div className="flex items-start gap-4">
+                <span className="text-accent mt-1 text-xl">✓</span>
+                <div>
+                  <h3 className="text-lg mb-1">Bespoke, Tailored Design</h3>
+                  <p className="text-muted-foreground">
+                    No cookie-cutter solutions. Every project is custom-crafted to reflect your unique personality and lifestyle.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-accent mt-1 text-xl">✓</span>
+                <div>
+                  <h3 className="text-lg mb-1">Attention to Detail</h3>
+                  <p className="text-muted-foreground">
+                    From the smallest finish to the grandest statement piece, we obsess over every element to ensure perfection.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-accent mt-1 text-xl">✓</span>
+                <div>
+                  <h3 className="text-lg mb-1">Client-Focused Experience</h3>
+                  <p className="text-muted-foreground">
+                    You are at the heart of everything we do. We listen, collaborate, and guide you with care throughout the entire journey.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-accent mt-1 text-xl">✓</span>
+                <div>
+                  <h3 className="text-lg mb-1">Timeless, Livable Luxury</h3>
+                  <p className="text-muted-foreground">
+                    We create spaces that are not only stunning but also comfortable, functional, and enduring—designed to be lived in and loved.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Closing Statement - EXISTING COPY (UNCHANGED) */}
+      <section className="max-w-[1200px] mx-auto px-6 lg:px-12 py-20 lg:py-28 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
           <p
             className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed text-muted-foreground mb-12"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Every EtahnMax project is rooted in attention to detail, quality craftsmanship, and intentional design. The result is not just a beautiful home—but a space that feels authentic, welcoming, and distinctly yours.
+            Every ETHANMAX project is rooted in attention to detail, quality craftsmanship, and intentional design. The result is not just a beautiful home—but a space that feels authentic, welcoming, and distinctly yours.
           </p>
 
-          <button
+          <motion.button
             onClick={() => {
-              const message = "Hello! I'd like to learn more about EtahnMax design services.";
+              const message = "Hello! I'd like to learn more about ETHANMAX design services.";
               const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
               window.open(url, "_blank");
             }}
-            className="inline-block bg-accent text-accent-foreground px-12 py-4 hover:bg-accent/90 transition-colors tracking-wide text-sm"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block bg-accent text-accent-foreground px-12 py-4 hover:bg-accent/90 transition-colors duration-300 tracking-wide text-sm shadow-lg hover:shadow-xl"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Contact via WhatsApp
-          </button>
+          </motion.button>
         </motion.div>
       </section>
 
@@ -933,7 +1178,7 @@ function DecorCategoriesPage({ onNavigate }: { onNavigate: (page: string) => voi
             className="text-sm text-muted-foreground tracking-wide"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            © 2026 Haven & Co. Thoughtfully designed for your home.
+            © 2026 EthanMax llc. Thoughtfully designed for your home.
           </p>
         </div>
       </footer>
@@ -1048,17 +1293,19 @@ function InteriorDesignServicesPage() {
                         </li>
                       ))}
                     </ul>
-                    <button
+                    <motion.button
                       onClick={() => {
                         const message = `Hello! I'd like to learn more about ${service.title}.`;
                         const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
                         window.open(url, "_blank");
                       }}
-                      className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide"
+                      whileHover={{ scale: 1.05, x: 5 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide shadow-md"
                       style={{ fontFamily: "var(--font-sans)" }}
                     >
                       Inquire Now
-                    </button>
+                    </motion.button>
                   </div>
                 </>
               ) : (
@@ -1088,17 +1335,222 @@ function InteriorDesignServicesPage() {
                         </li>
                       ))}
                     </ul>
-                    <button
+                    <motion.button
                       onClick={() => {
                         const message = `Hello! I'd like to learn more about ${service.title}.`;
                         const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
                         window.open(url, "_blank");
                       }}
-                      className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide"
+                      whileHover={{ scale: 1.05, x: 5 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide shadow-md"
                       style={{ fontFamily: "var(--font-sans)" }}
                     >
                       Inquire Now
-                    </button>
+                    </motion.button>
+                  </div>
+                  <div className="relative aspect-[4/3] overflow-hidden bg-secondary order-1 md:order-2">
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <footer className="bg-secondary py-12">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
+          <p
+            className="text-sm text-muted-foreground tracking-wide"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            © 2026 EthanMax llc. Thoughtfully designed for your home.
+          </p>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+// Custom Design Space Page Component
+function CustomDesignSpacePage() {
+  const services = [
+    {
+      title: "Office & Corporate Spaces",
+      description: "Transform your workplace into an inspiring, productive environment that reflects your company culture and values. We design functional, beautiful office spaces that boost morale, enhance collaboration, and leave lasting impressions on clients and employees alike.",
+      features: [
+        "Open-plan and private office design",
+        "Conference room and collaborative space planning",
+        "Custom furniture selection and branding integration",
+        "Ergonomic and sustainable design solutions",
+        "Reception and lobby design that makes an impact",
+      ],
+      image: "https://images.unsplash.com/photo-1703355685639-d558d1b0f63e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBpbnRlcmlvciUyMGRlc2lnbnxlbnwxfHx8fDE3Njg4OTIzMDV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      title: "Restaurant & Hospitality Spaces",
+      description: "Create unforgettable dining and hospitality experiences through thoughtful, atmospheric design. From intimate cafés to upscale restaurants, we craft interiors that enhance guest comfort, reflect your brand identity, and encourage customers to return again and again.",
+      features: [
+        "Full restaurant layout and seating optimization",
+        "Bar and lounge area design",
+        "Lighting design for ambiance and function",
+        "Custom millwork and decorative finishes",
+        "Kitchen and service area flow planning",
+      ],
+      image: "https://images.unsplash.com/photo-1744776411221-702f2848b0b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZXN0YXVyYW50JTIwaW50ZXJpb3J8ZW58MXx8fHwxNzY4ODIzNDc2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      title: "Healthcare & Wellness Spaces",
+      description: "Design healing, calming environments that prioritize patient comfort and staff efficiency. Our healthcare design solutions blend functionality with warmth, creating spaces that reduce stress, promote well-being, and support the highest standards of care.",
+      features: [
+        "Patient room and waiting area design",
+        "Calming color palettes and natural materials",
+        "ADA-compliant and accessible layouts",
+        "Staff workstation and break area planning",
+        "Thoughtful lighting for comfort and focus",
+      ],
+      image: "https://images.unsplash.com/photo-1626204717650-96d57481eeb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3NwaXRhbCUyMGhlYWx0aGNhcmUlMjBpbnRlcmlvciUyMGRlc2lnbnxlbnwxfHx8fDE3Njg4OTIzMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      title: "Recreational & Fitness Spaces",
+      description: "Energize your recreational facilities with dynamic, motivating design. Whether it's a gym, yoga studio, or community center, we create vibrant spaces that inspire movement, community, and well-being while maintaining safety and functionality.",
+      features: [
+        "Gym and fitness studio layout planning",
+        "Locker room and amenity design",
+        "Impact-resistant and durable material selection",
+        "Motivating color schemes and branding",
+        "Multi-purpose space design for flexibility",
+      ],
+      image: "https://images.unsplash.com/photo-1757924284732-4189190321cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWNyZWF0aW9uYWwlMjBzcGFjZSUyMGd5bSUyMGludGVyaW9yfGVufDF8fHx8MTc2ODg5MjMwNnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+  ];
+
+  return (
+    <>
+      <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20 lg:py-32">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h1
+            className="text-5xl md:text-6xl lg:text-7xl mb-6 tracking-tight"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Custom Design Space
+          </h1>
+          <p
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Beyond residential design—transforming commercial and specialized spaces with intention and artistry
+          </p>
+        </motion.div>
+
+        <div className="space-y-20">
+          {services.map((service, index) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: index * 0.2 }}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              {index % 2 === 0 ? (
+                <>
+                  <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h2
+                      className="text-3xl md:text-4xl mb-6 tracking-tight"
+                      style={{ fontFamily: "var(--font-serif)" }}
+                    >
+                      {service.title}
+                    </h2>
+                    <p
+                      className="text-lg text-muted-foreground mb-6"
+                      style={{ fontFamily: "var(--font-sans)" }}
+                    >
+                      {service.description}
+                    </p>
+                    <ul className="space-y-3 mb-8">
+                      {service.features.map((feature, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-3"
+                          style={{ fontFamily: "var(--font-sans)" }}
+                        >
+                          <span className="text-accent mt-1">✓</span>
+                          <span className="text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <motion.button
+                      onClick={() => {
+                        const message = `Hello! I'd like to learn more about ${service.title}.`;
+                        const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+                        window.open(url, "_blank");
+                      }}
+                      whileHover={{ scale: 1.05, x: 5 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide shadow-md"
+                      style={{ fontFamily: "var(--font-sans)" }}
+                    >
+                      Inquire Now
+                    </motion.button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="order-2 md:order-1">
+                    <h2
+                      className="text-3xl md:text-4xl mb-6 tracking-tight"
+                      style={{ fontFamily: "var(--font-serif)" }}
+                    >
+                      {service.title}
+                    </h2>
+                    <p
+                      className="text-lg text-muted-foreground mb-6"
+                      style={{ fontFamily: "var(--font-sans)" }}
+                    >
+                      {service.description}
+                    </p>
+                    <ul className="space-y-3 mb-8">
+                      {service.features.map((feature, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-3"
+                          style={{ fontFamily: "var(--font-sans)" }}
+                        >
+                          <span className="text-accent mt-1">✓</span>
+                          <span className="text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <motion.button
+                      onClick={() => {
+                        const message = `Hello! I'd like to learn more about ${service.title}.`;
+                        const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+                        window.open(url, "_blank");
+                      }}
+                      whileHover={{ scale: 1.05, x: 5 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide shadow-md"
+                      style={{ fontFamily: "var(--font-sans)" }}
+                    >
+                      Inquire Now
+                    </motion.button>
                   </div>
                   <div className="relative aspect-[4/3] overflow-hidden bg-secondary order-1 md:order-2">
                     <img
@@ -1174,17 +1626,19 @@ function PaletteConsultationPage() {
             >
               We'd love to hear from you
             </p>
-            <button
+            <motion.button
               onClick={() => {
                 const message = "Hello! I'd like to learn more about your palette consultation service.";
                 const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
                 window.open(url, "_blank");
               }}
-              className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide shadow-md"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Get in Touch
-            </button>
+            </motion.button>
           </div>
         </motion.div>
       </section>
@@ -1250,17 +1704,19 @@ function RetailMerchandisingPage() {
             >
               We'd love to hear from you
             </p>
-            <button
+            <motion.button
               onClick={() => {
                 const message = "Hello! I'd like to learn more about your retail merchandising services.";
                 const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
                 window.open(url, "_blank");
               }}
-              className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block bg-accent text-accent-foreground px-8 py-4 hover:bg-accent/90 transition-colors tracking-wide shadow-md"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Get in Touch
-            </button>
+            </motion.button>
           </div>
         </motion.div>
       </section>

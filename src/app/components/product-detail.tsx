@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { X, MessageCircle } from "lucide-react";
 import { Product } from "./product-card";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { TRANSITION_EASE, staggerContainer, fadeInUp } from "../utils/animations";
 
 interface ProductDetailProps {
   product: Product;
@@ -44,17 +45,26 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Image */}
-            <div className="relative aspect-[3/4] bg-secondary overflow-hidden">
+            <motion.div
+              className="relative aspect-[3/4] bg-secondary overflow-hidden"
+              layoutId={`product-image-${product.id}`}
+              transition={{ duration: 0.8, ease: TRANSITION_EASE }}
+            >
               <ImageWithFallback
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
-            </div>
+            </motion.div>
 
             {/* Details */}
-            <div className="flex flex-col justify-center space-y-8">
-              <div>
+            <motion.div
+              className="flex flex-col justify-center space-y-8"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={fadeInUp}>
                 <p
                   className="text-sm tracking-widest uppercase text-muted-foreground mb-4"
                   style={{ fontFamily: "var(--font-sans)" }}
@@ -73,9 +83,9 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
                 >
                   {product.description}
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="space-y-6">
+              <motion.div className="space-y-6" variants={fadeInUp}>
                 <div
                   className="text-base leading-relaxed text-foreground/80"
                   style={{ fontFamily: "var(--font-sans)" }}
@@ -99,8 +109,8 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
                   <MessageCircle size={20} />
                   <span className="tracking-wide">Inquire via WhatsApp</span>
                 </button>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
