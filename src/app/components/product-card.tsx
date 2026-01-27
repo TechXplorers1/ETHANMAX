@@ -20,7 +20,7 @@ export function ProductCard({ product, onSelect, index }: ProductCardProps) {
   const handleWhatsAppClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     const message = `Hello! I'm interested in the ${product.name} from your ${product.category} collection.`;
-    const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/12144256028?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
 

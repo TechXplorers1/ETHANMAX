@@ -10,7 +10,7 @@ interface ProductDetailProps {
 }
 
 export function ProductDetail({ product, onClose }: ProductDetailProps) {
-  const whatsappNumber = "1234567890"; // Replace with actual WhatsApp number
+  const whatsappNumber = "12144256028"; // Replace with actual WhatsApp number
 
   const handleWhatsAppInquiry = () => {
     const message = `Hi! I'm interested in the ${product.name} from your ${product.category} collection. Could you provide more details?`;
@@ -46,14 +46,14 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
             {/* Image */}
             <motion.div
-              className="relative aspect-[3/4] bg-secondary overflow-hidden"
+              className="relative w-full bg-secondary overflow-hidden rounded-lg"
               layoutId={`product-image-${product.id}`}
               transition={{ duration: 0.8, ease: TRANSITION_EASE }}
             >
               <ImageWithFallback
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-contain"
               />
             </motion.div>
 

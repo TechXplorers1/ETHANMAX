@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Header } from "./components/header";
 import { HeroSection } from "./components/hero-section";
 import { NewSection } from "./components/new-section";
+import { HomeGallery } from "./components/home-gallery";
 import { ProductCard, Product } from "./components/product-card";
 import { ProductDetail } from "./components/product-detail";
 import { WhatsAppButton } from "./components/whatsapp-button";
@@ -127,6 +128,13 @@ const products: Product[] = [
     category: "Furniture",
     description: "Perfect for entryways and hallways, combining beauty with function.",
     image: "https://images.unsplash.com/photo-1752061289543-de2e7720b029?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zb2xlJTIwdGFibGUlMjBmdXJuaXR1cmV8ZW58MXx8fHwxNzY4MDQ5NTkwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+  },
+  {
+    id: "19",
+    name: "Living Space",
+    category: "Living",
+    description: "A harmonious blend of comfort and style, creating the perfect atmosphere for relaxation and connection.",
+    image: "/living-space.png",
   },
 ];
 
@@ -384,6 +392,9 @@ function HomePage({ onSelectProduct, onNavigate }: { onSelectProduct: (product: 
           </motion.div>
         </div>
       </section>
+
+      {/* Gallery Section */}
+      <HomeGallery />
 
       {/* Footer */}
       <footer className="bg-secondary py-12">
@@ -814,7 +825,7 @@ function AboutPage() {
           <motion.button
             onClick={() => {
               const message = "Hello! I'd like to learn more about ETHANMAX design services.";
-              const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+              const url = `https://wa.me/12144256028?text=${encodeURIComponent(message)}`;
               window.open(url, "_blank");
             }}
             whileHover={{ scale: 1.05 }}
@@ -1296,7 +1307,7 @@ function InteriorDesignServicesPage() {
                     <motion.button
                       onClick={() => {
                         const message = `Hello! I'd like to learn more about ${service.title}.`;
-                        const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+                        const url = `https://wa.me/12144256028?text=${encodeURIComponent(message)}`;
                         window.open(url, "_blank");
                       }}
                       whileHover={{ scale: 1.05, x: 5 }}
@@ -1338,7 +1349,7 @@ function InteriorDesignServicesPage() {
                     <motion.button
                       onClick={() => {
                         const message = `Hello! I'd like to learn more about ${service.title}.`;
-                        const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+                        const url = `https://wa.me/12144256028?text=${encodeURIComponent(message)}`;
                         window.open(url, "_blank");
                       }}
                       whileHover={{ scale: 1.05, x: 5 }}
@@ -1428,6 +1439,18 @@ function CustomDesignSpacePage() {
       ],
       image: "https://images.unsplash.com/photo-1757924284732-4189190321cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWNyZWF0aW9uYWwlMjBzcGFjZSUyMGd5bSUyMGludGVyaW9yfGVufDF8fHx8MTc2ODg5MjMwNnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     },
+    {
+      title: "Living Space Design",
+      description: "Crafting living rooms that serve as the heart of the home. We balance aesthetic beauty with everyday functionality to create inviting spaces for gathering, relaxing, and making memories.",
+      features: [
+        "Open-concept living area planning",
+        "Custom entertainment centers and shelving",
+        "Statement lighting and furniture layouts",
+        "Textural layering for warmth and depth",
+        "Seamless indoor-outdoor flow integration",
+      ],
+      image: "/living-space.png",
+    },
   ];
 
   return (
@@ -1499,7 +1522,7 @@ function CustomDesignSpacePage() {
                     <motion.button
                       onClick={() => {
                         const message = `Hello! I'd like to learn more about ${service.title}.`;
-                        const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+                        const url = `https://wa.me/12144256028?text=${encodeURIComponent(message)}`;
                         window.open(url, "_blank");
                       }}
                       whileHover={{ scale: 1.05, x: 5 }}
@@ -1629,7 +1652,7 @@ function PaletteConsultationPage() {
             <motion.button
               onClick={() => {
                 const message = "Hello! I'd like to learn more about your palette consultation service.";
-                const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+                const url = `https://wa.me/12144256028?text=${encodeURIComponent(message)}`;
                 window.open(url, "_blank");
               }}
               whileHover={{ scale: 1.05 }}
@@ -1707,7 +1730,7 @@ function RetailMerchandisingPage() {
             <motion.button
               onClick={() => {
                 const message = "Hello! I'd like to learn more about your retail merchandising services.";
-                const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+                const url = `https://wa.me/12144256028?text=${encodeURIComponent(message)}`;
                 window.open(url, "_blank");
               }}
               whileHover={{ scale: 1.05 }}
