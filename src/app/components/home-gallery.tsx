@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
 
 const galleryImages = [
     "/gal-1.jpeg",
@@ -14,7 +14,6 @@ const galleryImages = [
     "/gal-10.jpeg",
     "/gal-11.jpeg",
     "/gal-12.jpeg",
-    "/gal-13.jpeg",
     "/gal-14.jpeg",
 ];
 
@@ -42,29 +41,26 @@ export function HomeGallery() {
                 </p>
             </motion.div>
 
-            <ResponsiveMasonry
-                columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
-            >
-                <Masonry gutter="1.5rem">
-                    {galleryImages.map((image, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}
-                            className="overflow-hidden rounded-md cursor-pointer group"
-                        >
-                            <img
-                                src={image}
-                                alt={`Gallery Image ${i + 1}`}
-                                className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-                                loading="lazy"
-                            />
-                        </motion.div>
-                    ))}
-                </Masonry>
-            </ResponsiveMasonry>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {galleryImages.map((image, i) => (
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.5, delay: i * 0.1 }}
+                        className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-gray-100 cursor-pointer"
+                    >
+                        <img
+                            src={image}
+                            alt={`Gallery Image ${i + 1}`}
+                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                            loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/20" />
+                    </motion.div>
+                ))}
+            </div>
         </section>
     );
 }
