@@ -15,6 +15,9 @@ const galleryImages = [
     "/gal-11.jpeg",
     "/gal-12.jpeg",
     "/gal-14.jpeg",
+    "/gal-15.jpg",
+    "/gal-16.jpg",
+    "/gal-17.jpg",
 ];
 
 export function HomeGallery() {

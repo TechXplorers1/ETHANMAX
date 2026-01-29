@@ -136,6 +136,27 @@ const products: Product[] = [
     description: "A harmonious blend of comfort and style, creating the perfect atmosphere for relaxation and connection.",
     image: "/living-space.png",
   },
+  {
+    id: "20",
+    name: "Deep Teal Serenity",
+    category: "Paint",
+    description: "A rich, calming teal that creates a sophisticated and restful atmosphere.",
+    image: "/paint-1.jpg",
+  },
+  {
+    id: "21",
+    name: "Two-Tone Corridor",
+    category: "Paint",
+    description: "A modern approach to hallways with a crisp white upper and warm grey lower section.",
+    image: "/paint-2.jpg",
+  },
+  {
+    id: "22",
+    name: "Charcoal Matte",
+    category: "Paint",
+    description: "A deep, dramatic charcoal finish for bold accent walls and statement spaces.",
+    image: "/paint-3.png",
+  },
 ];
 
 export default function App() {
@@ -189,6 +210,7 @@ export default function App() {
     if (currentPage === "bedroom") return products.filter((p) => p.category === "Bedroom");
     if (currentPage === "decor") return products.filter((p) => p.category === "Decor");
     if (currentPage === "furniture") return products.filter((p) => p.category === "Furniture");
+    if (currentPage === "paint") return products.filter((p) => p.category === "Paint");
     return products;
   };
 
@@ -210,6 +232,7 @@ export default function App() {
       case "dining":
       case "bedroom":
       case "furniture":
+      case "paint":
         return (
           <CollectionPage
             category={currentPage}
@@ -437,6 +460,8 @@ function CollectionPage({
         return "Elevate your home with thoughtful design and character";
       case "furniture":
         return "Crafted pieces that bring elegance and comfort to your home";
+      case "paint":
+        return "Transform your walls with our curated selection of premium paints";
       default:
         return "";
     }

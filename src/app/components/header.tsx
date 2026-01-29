@@ -41,6 +41,7 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
     { name: "FURNITURE", id: "furniture" },
     { name: "INTERIOR DESIGN SERVICES", id: "interior-design-services" },
     { name: "PALETTE CONSULTATION", id: "palette-consultation" },
+    { name: "PAINT", id: "paint" },
     { name: "RETAIL MERCHANDISING", id: "retail-merchandising" },
     { name: "DECOR", id: "decor" },
     { name: "CUSTOM DESIGN SPACE", id: "custom-design-space" },
@@ -124,8 +125,8 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
               >
                 <span
                   className={`text-sm tracking-widest transition-colors duration-300 ${currentPage === item.id
-                      ? "text-foreground"
-                      : "text-muted-foreground group-hover:text-foreground"
+                    ? "text-foreground"
+                    : "text-muted-foreground group-hover:text-foreground"
                     }`}
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
@@ -157,8 +158,8 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
               >
                 <span
                   className={`text-xs tracking-widest whitespace-nowrap transition-colors duration-300 ${currentPage === item.id
-                      ? "text-foreground"
-                      : "text-muted-foreground group-hover:text-foreground"
+                    ? "text-foreground"
+                    : "text-muted-foreground group-hover:text-foreground"
                     }`}
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
@@ -301,8 +302,8 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
                       setMobileMenuOpen(false);
                     }}
                     className={`block w-full text-left py-2 text-sm tracking-widest transition-colors ${currentPage === item.id
-                        ? "text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                       }`}
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
@@ -322,8 +323,8 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
                       setMobileMenuOpen(false);
                     }}
                     className={`block w-full text-left py-2 text-sm tracking-widest transition-colors ${currentPage === item.id
-                        ? "text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                       }`}
                     style={{ fontFamily: "var(--font-sans)" }}
                   >
