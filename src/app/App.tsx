@@ -22,7 +22,7 @@ const products: Product[] = [
     name: "Nordic Chair",
     category: "Living",
     description: "Minimalist design meets uncompromising comfort in this modern classic.",
-    image: "https://images.unsplash.com/photo-1767507006149-befd852965d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjaGFpciUyMGRlc2lnbnxlbnwxfHx8fDE3Njc4NDMyNTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "https://images.unsplash.com/photo-1759803557159-f48be1dcb43d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhY2NlbnQlMjBjaGFpciUyMG1vZGVybnxlbnwxfHx8fDE3NjgwNDk1ODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
   },
   {
     id: "3",
@@ -315,8 +315,8 @@ function HomePage({ onSelectProduct, onNavigate }: { onSelectProduct: (product: 
     <>
       <HeroSection
         image="https://images.unsplash.com/photo-1758448755778-90ebf4d0f1e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBsaXZpbmclMjByb29tJTIwbmV1dHJhbHxlbnwxfHx8fDE3Njc5NDI3ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080"
-        title="Live Beautifully"
-        subtitle="Thoughtfully designed pieces for the home you love"
+        title="Transforming Vision into Luxury Experiences"
+        subtitle="Luxury redefined — from concept to completion"
       />
 
       {/* New Arrivals Section */}
@@ -844,7 +844,7 @@ function AboutPage() {
             className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed text-muted-foreground mb-12"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Every ETHANMAX project is rooted in attention to detail, quality craftsmanship, and intentional design. The result is not just a beautiful home—but a space that feels authentic, welcoming, and distinctly yours.
+            Every ETHANMAX project is rooted in exceptional decor, followed by intentional design and quality craftsmanship. The result is not just a beautiful home—but a space that feels authentic, welcoming, and distinctly yours.
           </p>
 
           <motion.button
@@ -1078,7 +1078,7 @@ function VisitPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="bg-gray-100 p-8 rounded-lg text-center cursor-pointer">
             <h2 className="text-2xl font-bold mb-4">Store Location</h2>
-            <p className="text-gray-500">123 Main Street, Anytown, USA</p>
+            <p className="text-gray-500"></p>
           </div>
           <div className="bg-gray-100 p-8 rounded-lg text-center cursor-pointer">
             <h2 className="text-2xl font-bold mb-4">Opening Hours</h2>
@@ -1086,7 +1086,7 @@ function VisitPage() {
           </div>
           <div className="bg-gray-100 p-8 rounded-lg text-center cursor-pointer">
             <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-            <p className="text-gray-500">Phone: (123) 456-7890, Email: info@ethanmaxllc.com</p>
+            <p className="text-gray-500">Phone: +1 2144256028, Email: enquiry@ethanmax.com</p>
           </div>
         </div>
       </section>
@@ -1110,7 +1110,7 @@ function DecorCategoriesPage({ onNavigate }: { onNavigate: (page: string) => voi
   const decorCategories = [
     {
       name: "Wall Décor",
-      image: "https://images.unsplash.com/photo-1648385132688-f6def691b4ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YWxsJTIwYXJ0JTIwZGVjb3J8ZW58MXx8fHwxNzY4Mjg3NTAwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "https://images.unsplash.com/photo-1535056626760-b283260686b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YWxsJTIwYXJ0JTIwaG9tZXxlbnwxfHx8fDE3NjgwMzkzNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       description: "Curated art pieces and wall accents",
     },
     {
@@ -1140,7 +1140,7 @@ function DecorCategoriesPage({ onNavigate }: { onNavigate: (page: string) => voi
     },
     {
       name: "Seating",
-      image: "https://images.unsplash.com/photo-1767507006149-befd852965d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjaGFpciUyMGRlc2lnbnxlbnwxfHx8fDE3Njc4NDMyNTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "https://images.unsplash.com/photo-1759803557159-f48be1dcb43d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhY2NlbnQlMjBjaGFpciUyMG1vZGVybnxlbnwxfHx8fDE3NjgwNDk1ODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       description: "Chairs, armchairs, and sectional sofas",
     },
     {
