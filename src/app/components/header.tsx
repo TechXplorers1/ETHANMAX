@@ -60,18 +60,7 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 bg-background ${isScrolled ? 'shadow-md' : ''}`}>
-      {/* Top Announcement Banner */}
-      <div className="bg-primary text-primary-foreground">
-        <div className="max-w-[1600px] mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex-1" />
-          <p className="text-sm tracking-wide text-center" style={{ fontFamily: "var(--font-sans)" }}>
-            Discover our latest collection of thoughtfully designed pieces
-          </p>
-          <div className="flex-1 flex justify-end">
-            <ChevronRight size={16} />
-          </div>
-        </div>
-      </div>
+
 
       {/* Main Navigation Bar */}
       <div className="border-b border-border bg-background/95 backdrop-blur-sm">

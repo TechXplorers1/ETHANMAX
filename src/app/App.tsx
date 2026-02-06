@@ -7,6 +7,7 @@ import { HomeGallery } from "./components/home-gallery";
 import { ProductCard, Product } from "./components/product-card";
 import { ProductDetail } from "./components/product-detail";
 import { WhatsAppButton } from "./components/whatsapp-button";
+import { Footer } from "./components/footer";
 
 // Product Data
 const products: Product[] = [
@@ -420,16 +421,7 @@ function HomePage({ onSelectProduct, onNavigate }: { onSelectProduct: (product: 
       <HomeGallery />
 
       {/* Footer */}
-      <footer className="bg-secondary py-12">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
-          <p
-            className="text-sm text-muted-foreground tracking-wide"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            © 2026 EthanMax llc. Thoughtfully designed for your home.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
@@ -1078,7 +1070,7 @@ function VisitPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="bg-gray-100 p-8 rounded-lg text-center cursor-pointer">
             <h2 className="text-2xl font-bold mb-4">Store Location</h2>
-            <p className="text-gray-500"></p>
+            <p className="text-gray-500">USA</p>
           </div>
           <div className="bg-gray-100 p-8 rounded-lg text-center cursor-pointer">
             <h2 className="text-2xl font-bold mb-4">Opening Hours</h2>
@@ -1614,16 +1606,7 @@ function CustomDesignSpacePage() {
         </div>
       </section>
 
-      <footer className="bg-secondary py-12">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
-          <p
-            className="text-sm text-muted-foreground tracking-wide"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            © 2026 EthanMax llc. Thoughtfully designed for your home.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
@@ -1769,16 +1752,7 @@ function RetailMerchandisingPage() {
         </motion.div>
       </section>
 
-      <footer className="bg-secondary py-12">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
-          <p
-            className="text-sm text-muted-foreground tracking-wide"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            © 2026 EthanMax llc. Thoughtfully designed for your home.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
