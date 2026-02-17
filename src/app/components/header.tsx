@@ -80,10 +80,10 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
             {/* Logo - Center */}
             <button
               onClick={() => onNavigate("home")}
-              className="absolute left-1/2 transform -translate-x-1/2 font-serif text-xl md:text-2xl tracking-wide hover:text-accent transition-colors duration-300 whitespace-nowrap"
+              className="absolute left-1/2 transform -translate-x-1/2 font-serif text-sm sm:text-xl md:text-2xl tracking-wide hover:text-accent transition-colors duration-300 whitespace-nowrap"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              EthanMax Interior Studio
+              Max-Ethan Luxurious Interior
             </button>
 
             {/* Right Side Icons */}
@@ -263,7 +263,7 @@ export function Header({ onNavigate, currentPage, onSearch, quickSearchProducts 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background border-b border-border overflow-hidden"
+            className="md:hidden bg-background border-b border-border overflow-y-auto max-h-[calc(100vh-80px)]"
           >
             <div className="px-6 py-6 space-y-6">
               {/* Search Mobile */}

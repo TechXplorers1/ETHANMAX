@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Header } from "./components/header";
 import { HeroSection } from "./components/hero-section";
@@ -166,11 +166,17 @@ export default function App() {
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [currentPage]);
+
   const handleNavigate = (page: string) => {
     setCurrentPage(page);
     setIsSearching(false);
     setSearchResults([]);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
+    // Double ensure scroll on mobile
+    setTimeout(() => window.scrollTo({ top: 0, behavior: "auto" }), 100);
   };
 
   const handleSearch = (query: string) => {
@@ -183,7 +189,9 @@ export default function App() {
     setSearchResults(results);
     setIsSearching(true);
     setCurrentPage("search");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
+    // Double ensure scroll on mobile
+    setTimeout(() => window.scrollTo({ top: 0, behavior: "auto" }), 100);
   };
 
   const handleProductSelectFromSearch = (productOrId: string | Product) => {
@@ -283,7 +291,7 @@ export default function App() {
       />
 
       <main className="pt-[168px] md:pt-[185px]">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({ top: 0, behavior: "auto" })}>
           <motion.div
             key={currentPage}
             initial={{ opacity: 0, y: 20 }}
